@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+
+  app:
+    image: node:alpine
+    build: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 8080:8080
+      - 9229:9229
+    command: npm start
+    depends_on:
+      - db
